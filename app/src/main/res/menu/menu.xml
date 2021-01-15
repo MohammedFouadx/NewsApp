@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+
+
+
+    <group android:id="@+id/sport">
+
+        <item android:id="@+id/aaa"
+            android:title="رياضة"/>
+
+
+
+    </group>
+
+
+    <group  android:id="@+id/Odds_and_oddity"
+        android:orderInCategory="@android:integer/config_mediumAnimTime">
+        <item
+            android:title="طرائف وغرائب"/>
+    </group>
+
+
+
+    <group
+        android:id="@+id/political_news_group"
+        android:orderInCategory="@android:integer/config_mediumAnimTime">
+
+        <item android:id="@+id/political_item"
+            android:title="أخبار سياسية"/>
+
+        <item
+            android:id="@+id/Local_political_news"
+            android:title="أخبار سياسية محلية"/>
+        <item
+            android:id="@+id/Arab_political_news"
+            android:title="أخبار سياسية عربية"/>
+        <item
+            android:id="@+id/International_political_news"
+            android:title="أخبار سياسية دولية"/>
+
+    </group>
+
+
+
+
+
+
+
+</menu>
