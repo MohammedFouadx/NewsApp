@@ -19,7 +19,7 @@ class NewsFetchr {
     init {
         val retrofit: Retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.1.110")
+                .baseUrl("http://172.16.16.253")
                 .build()
         newsApi = retrofit.create(NewsApi::class.java)
     }
@@ -28,6 +28,30 @@ class NewsFetchr {
     fun fetchPolitical(): LiveData<List<NewsData>> {
         val responseLiveData: MutableLiveData<List<NewsData>> = MutableLiveData()
         val newsRequest: Call<NewsResponse> = newsApi.fetchContents(1)
+        newsRequest.enqueue(object : Callback<NewsResponse> {
+            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                Log.e("TAG", "Failed to fetch News", t)
+            }
+            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>
+            ) {
+
+                val newsResponse:NewsResponse? = response.body()
+                val news:List<NewsData> = newsResponse?.newsData
+                        ?: mutableListOf()
+                Log.d("TAG", "Response received")
+                responseLiveData.value = news
+                Log.d("onResponse", news.toString())
+            }
+        })
+        return responseLiveData
+
+    }
+
+
+
+    fun fetchSport(): LiveData<List<NewsData>> {
+        val responseLiveData: MutableLiveData<List<NewsData>> = MutableLiveData()
+        val newsRequest: Call<NewsResponse> = newsApi.fetchContents(2)
         newsRequest.enqueue(object : Callback<NewsResponse> {
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                 Log.e("TAG", "Failed to fetch News", t)

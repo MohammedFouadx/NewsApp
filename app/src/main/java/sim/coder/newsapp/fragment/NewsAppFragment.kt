@@ -1,5 +1,6 @@
 package sim.coder.newsapp.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import sim.coder.newsapp.MoreDetailsActivity
 import sim.coder.newsapp.NewsFetchr
 import sim.coder.newsapp.R
 import sim.coder.newsapp.model.NewsAppViewModel
@@ -24,6 +26,7 @@ private const val TAG = "NewsAppFragment"
 
 private lateinit var newsAppViewModel: NewsAppViewModel
 private lateinit var newAppRecyclerView: RecyclerView
+
 
 class NewsAppFragment : Fragment() {
     private var fragmentName : String? = null
@@ -43,6 +46,7 @@ class NewsAppFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_news_app, container, false)
         newAppRecyclerView=view.findViewById(R.id.news_app_recyclerView)
+
         fragmentName=arguments?.getSerializable("data")as String
         newAppRecyclerView.layoutManager= LinearLayoutManager(context)
 
@@ -54,23 +58,27 @@ class NewsAppFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var newsF= NewsFetchr()
+        var newsFetchr= NewsFetchr()
         when (fragmentName){
             "political" -> {
-                val newsLiveData=newsF.fetchPolitical()
+                val newsLiveData=newsFetchr.fetchPolitical()
                 newsLiveData.observe(this, Observer {
-                    Log.d("test", "Response received: ${it}")
+                    Log.d("political", "Response received: ${it}")
                     newAppRecyclerView.adapter = NewsAdapter(it)
                 })
             }
             "sport" -> {
 
-                Toast.makeText(context,"sport Fragment", Toast.LENGTH_LONG).show()
+                val newsLiveData=newsFetchr.fetchSport()
+                newsLiveData.observe(this, Observer {
+                    Log.d("sport", "Response received: ${it}")
+                    newAppRecyclerView.adapter = NewsAdapter(it)
+                })
             }
             "odds" -> {
-                val newsLiveData=newsF.fetchOdd()
+                val newsLiveData=newsFetchr.fetchOdd()
                 newsLiveData.observe(this, Observer {
-                    Log.d("test", "Response received: ${it}")
+                    Log.d("odd", "Response received: ${it}")
                     newAppRecyclerView.adapter = NewsAdapter(it)
                 })            }
         }
@@ -84,6 +92,7 @@ class NewsAppFragment : Fragment() {
 
     private  inner class NewsHolder(view: View) : RecyclerView.ViewHolder(view){
 
+        val listItemCardView = view.findViewById(R.id.cardView) as CardView
         val newsAppImage=view.findViewById(R.id.news_image) as ImageView
         val newsAppTitle=view.findViewById(R.id.news_title) as TextView
         val newsAppDetails=view.findViewById(R.id.news_details) as TextView
@@ -92,7 +101,7 @@ class NewsAppFragment : Fragment() {
 
 
 
-        var news=NewsData()
+
 
         fun bind(news: NewsData){
 
@@ -100,6 +109,17 @@ class NewsAppFragment : Fragment() {
             newsAppTitle.text=news.title
             newsAppDetails.text=news.details
             newsAppDate.text=news.date
+
+
+            listItemCardView.setOnClickListener {
+                val intentMoreDetails = Intent(context,MoreDetailsActivity::class.java)
+                var bundle = Bundle()
+                bundle.putSerializable("key",news)
+                intentMoreDetails.putExtras(bundle)
+                startActivity(intentMoreDetails)
+
+            }
+
 
 
 

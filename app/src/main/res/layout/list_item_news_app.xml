@@ -26,11 +26,12 @@
             <ImageView
                 android:id="@+id/news_image"
                 android:layout_width="100dp"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_margin="2dp"
                 android:fitsSystemWindows="true"
                 android:translationX="2dp"
+                android:scaleType="fitXY"
                 android:contentDescription="TODO" />
             <View
                 android:layout_width="0.3dp"
@@ -54,6 +55,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
+                    android:maxLength="20"
                     tools:ignore="MissingPrefix" />
 
 
@@ -72,6 +74,7 @@
                     android:text="details"
                     android:textSize="18sp"
                     android:layout_margin="5dp"
+                    android:maxLength="20"
                     tools:ignore="MissingPrefix" />
                 <View
                     android:layout_width="match_parent"

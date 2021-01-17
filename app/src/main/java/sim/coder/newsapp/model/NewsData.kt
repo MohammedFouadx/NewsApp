@@ -1,6 +1,8 @@
 package sim.coder.newsapp.model
 
 import com.google.gson.annotations.SerializedName
+import sim.coder.newsapp.MoreDetailsActivity
+import java.io.Serializable
 
 data class NewsData(
     @SerializedName("news_title")
@@ -22,5 +24,7 @@ data class NewsData(
 
 
 
-) {
+
+):Serializable {
+
 }
